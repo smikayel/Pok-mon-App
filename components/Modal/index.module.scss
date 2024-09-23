@@ -1,0 +1,19 @@
+.ModalContainer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  z-index: 1100;
+}
+
+.ModalContent {
+  box-sizing: border-box;
+  background: #FFFFFF;
+  border: 1.32px solid #EEEEEE;
+  border-radius: 25px;
+  padding: 25px;
+}
