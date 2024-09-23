@@ -1,8 +1,25 @@
 This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
 ## Getting Started
+create the `.env` file from the `.env.example`
+run the dockerize database
+```bash
+docker-compose up
+```
+change the node version to the same which used during the development
 
-First, run the development server:
+```bash
+nvm use
+```
+install the packages
+```bash
+npm i 
+```
+run migrations
+```bash
+npx prisma migrate dev   
+```
+Run the development server:
 
 ```bash
 npm run dev
