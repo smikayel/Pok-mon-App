@@ -34,9 +34,20 @@ export default function Hero() {
           onClick={handleOpenPokemonModal}
           className="max-w-[235px]"
         />
-        <ProgressBar current={progressData.data?.current} total={progressData.data?.total} />
+        {progressData.data?.current && (
+          <ProgressBar
+            current={progressData.data?.current}
+            total={progressData.data?.total}
+          />
+        )}
       </div>
-      {state && <Modal height="90%" width="90%" progressData={progressData.data as IProgress}/>}
+      {state && (
+        <Modal
+          height="90%"
+          width="90%"
+          progressData={progressData.data as IProgress}
+        />
+      )}
     </div>
   );
 }

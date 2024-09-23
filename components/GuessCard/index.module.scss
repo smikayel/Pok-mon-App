@@ -1,0 +1,23 @@
+.card {
+  transition: transform 0.5s ease;
+}
+
+.card.clicked {
+  transform: translateY(-20px);
+}
+
+.button {
+  transition: transform 1s ease;
+}
+
+.button.clicked {
+  transform: translateY(-250px);
+}
+
+.image {
+  transition: transform 1s ease;
+}
+
+.image.clicked {
+  transform: translateY(100px);
+}

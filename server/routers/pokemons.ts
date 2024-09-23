@@ -1,3 +1,4 @@
+import { z } from "zod";
 import { prisma } from "../database";
 import { publicProcedure, router } from "../trpc";
 
@@ -51,4 +52,17 @@ export const pokemonRouter = router({
       throw e;
     }
   }),
+  guessPokemon: publicProcedure
+    .input(z.object({ id: z.number() }))
+    .mutation(async ({ input }) => {
+      try {
+        const updatedPokemon = await prisma.pokemon.update({
+          where: { id: input.id },
+          data: { isGuessed: true },
+        });
+        return updatedPokemon; 
+      } catch (e) {
+        throw e;
+      }
+    }),
 });
