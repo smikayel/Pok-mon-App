@@ -1,5 +1,6 @@
 import Image from "next/image";
-import { useContext } from "react";
+import { useContext, useState } from "react";
+import { trpc } from "@/server/client";
 import { ModalContext } from "../Context/modal.context";
 import PokemonInfoCard from "../PokemonInfoCard";
 import PokemonListComponent from "../PokemonListComponent";
@@ -7,14 +8,23 @@ import PokemonListComponent from "../PokemonListComponent";
 import CloseIcon from "../../app/Assets/CloseIcon.svg";
 
 import style from "./index.module.scss";
+import { IPokemon, IProgress } from "../shared/types";
 
 interface IModal {
   height: string | number;
   width: string | number;
+  progressData?: IProgress;
 }
 
-export const Modal = ({ height, width }: IModal) => {
+export const Modal = ({ height, width, progressData }: IModal) => {
   const { state, updateState } = useContext(ModalContext);
+  const { data } = trpc.pokemons.getPokemons.useQuery();
+  const firstGuessedIndex = data?.pokemons?.findIndex(
+    (pokemon: IPokemon) => pokemon.isGuessed
+  );
+  const [selectedPokemon, setSelectedPokemon] = useState<number | null>(
+    firstGuessedIndex !== -1 ? firstGuessedIndex : null
+  );
 
   const closeModal = () => {
     updateState(!state);
@@ -32,7 +42,7 @@ export const Modal = ({ height, width }: IModal) => {
               My Pokedex
             </div>
             <div className="font-inter text-left text-lg text-black opacity-[0.5]">
-              120/151 Guessed
+              {progressData?.current}/{progressData?.total} Guessed
             </div>
           </div>
           <button onClick={closeModal}>
@@ -40,8 +50,14 @@ export const Modal = ({ height, width }: IModal) => {
           </button>
         </div>
         <div className="flex h-full pt-[60px] pb-[30px]">
-          <PokemonListComponent />
-          <PokemonInfoCard />
+          {data && (
+            <PokemonListComponent
+              pokemons={data?.pokemons as IPokemon[]}
+              selectedPokemon={selectedPokemon}
+              setSelectedPokemon={setSelectedPokemon}
+            />
+          )}
+          {selectedPokemon != null && <PokemonInfoCard pokemon={data?.pokemons[selectedPokemon]}/>}
         </div>
       </div>
     </div>

@@ -1,22 +1,16 @@
-const pokemon = {
-  id: 30,
-  isGuessed: true,
-  image:
-    "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/132.png",
-  hp: 10,
-  speed: 10,
-  defense: 10,
-  attack: 50,
-  name: "Jelly",
-};
+import { IPokemon } from "../shared/types";
 
 const infos = ["hp", "speed", "defense", "attack"];
 
-export default function PokemonInfoCard() {
+export interface IProps {
+  pokemon: IPokemon
+}
+
+export default function PokemonInfoCard({ pokemon }: IProps) {
   return (
     <div className="flex flex-[1] flex-col items-center justify-between h-full w-full rounded-md p-[100px]">
       <img
-        src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRi4CCuQkPI4tcKAVFl8dc8p4OhH5-Zq4DGYc2Kwwa4KQbvH34f3s6Kq_7bSgxQ65516NM&usqp=CAU"
+        src={pokemon.image}
         alt="pokemon"
         width={300}
         height={300}

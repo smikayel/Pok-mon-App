@@ -1,6 +1,14 @@
-// const { PrismaClient } = require('@prisma/client');
-// const fetch = require('node-fetch');
-// const prisma = new PrismaClient();
+import { PrismaClient } from '@prisma/client';
+import fetch from 'node-fetch';
+
+const prisma = new PrismaClient();
+
+async function fetchPokemonNames(limit = 100) {
+    const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=${limit}`);
+    const data = await response.json();
+
+    return data.results.map(pokemon => pokemon.name);
+}
 
 async function fetchAndSavePokemon(pokemonName) {
     const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName}`);
@@ -13,13 +21,14 @@ async function fetchAndSavePokemon(pokemonName) {
         defense: data.stats[2].base_stat,
         speed: data.stats[5].base_stat,
         image: data.sprites.front_default,
+        isGuessed: false,
     };
-    console.log(pokemon)
-    // await prisma.pokemon.create({ data: pokemon });
+
+    await prisma.pokemon.create({ data: pokemon });
 }
 
 async function main() {
-    const pokemonNames = ['pikachu', 'bulbasaur', 'charmander']; // Add more Pokémon names or make a loop to fetch multiple
+    const pokemonNames = await fetchPokemonNames(157) // fetch the 157 pokemon data
 
     for (const name of pokemonNames) {
         await fetchAndSavePokemon(name);
@@ -31,5 +40,5 @@ main()
         console.error(e);
     })
     .finally(async () => {
-        // await prisma.$disconnect();
+        await prisma.$disconnect();
     });
