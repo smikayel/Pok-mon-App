@@ -30,7 +30,7 @@ export default function GuessCard() {
 
   const handleGuessing = () => {
     if (!inputValue) return;
-    console.log(data?.pokemon.name);
+  
     if (inputValue === data?.pokemon.name) {
       mutation.mutate({ id: data.pokemon.id });
       setIsGuessed(true);
