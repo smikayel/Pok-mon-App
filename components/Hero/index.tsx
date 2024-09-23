@@ -33,7 +33,7 @@ export default function Hero() {
         />
         <ProgressBar current={127} total={156} />
       </div>
-      {state && <Modal height="80%" width="80%" />}
+      {state && <Modal height="90%" width="90%" />}
     </div>
   );
 }

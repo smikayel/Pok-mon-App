@@ -1,11 +1,11 @@
-import React, { ReactNode, createContext, useState } from 'react';
+import React, { ReactNode, createContext, useState } from "react";
 
 export const ModalContext = createContext<{
   state: boolean;
   updateState: (newState: boolean) => void;
 }>({
-    state: false,
-    updateState: () => {},
+  state: false,
+  updateState: () => {},
 });
 
 interface ModalProviderProps {
