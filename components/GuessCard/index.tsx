@@ -15,7 +15,7 @@ export default function GuessCard() {
   const [inputValue, setInputValue] = useState<string>("");
   const [isClicked, setIsClicked] = useState<boolean>(false);
   const [isGuessed, setIsGuessed] = useState<boolean>(false);
-  const { data } = trpc.pokemons.getRandomNotGuessedPokemon.useQuery();
+  const { data, refetch } = trpc.pokemons.getRandomNotGuessedPokemon.useQuery();
 
   const mutation = trpc.pokemons.guessPokemon.useMutation({
     onSuccess: () => {
@@ -34,6 +34,7 @@ export default function GuessCard() {
     if (inputValue === data?.pokemon.name) {
       mutation.mutate({ id: data.pokemon.id });
       setIsGuessed(true);
+      refetch()
     } else {
       setIsGuessed(false);
     }
