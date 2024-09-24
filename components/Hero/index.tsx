@@ -8,7 +8,7 @@ import { IProgress } from "../shared/types";
 
 export default function Hero() {
   const { state, updateState } = useContext(ModalContext);
-  const progressData = trpc.pokemons.getProgress.useQuery();
+  const {data, isLoading} = trpc.pokemons.getProgress.useQuery();
 
   const handleOpenPokemonModal = () => {
     updateState(!state);
@@ -34,10 +34,10 @@ export default function Hero() {
           onClick={handleOpenPokemonModal}
           className="max-w-[235px]"
         />
-        {progressData.data?.current && (
+        {!isLoading && (
           <ProgressBar
-            current={progressData.data?.current}
-            total={progressData.data?.total}
+            current={data?.current}
+            total={data?.total}
           />
         )}
       </div>
@@ -45,7 +45,7 @@ export default function Hero() {
         <Modal
           height="90%"
           width="90%"
-          progressData={progressData.data as IProgress}
+          progressData={data as IProgress}
         />
       )}
     </div>
